@@ -28,20 +28,36 @@ namespace WindowsFormsApp2
         {
             Random rnd = new Random(DateTime.UtcNow.Millisecond);
             IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
-            byte[] difficulty = new byte[] { 0x00, 0x00 };
+            //byte[] difficulty = new byte[] { 0x00, 0x00 };
+            BlockChain chain = new BlockChain(genesis);
 
-            BlockChain chain = new BlockChain(difficulty, genesis);
-            for (int i = 0; i < 200; i++)
+            if (radioButton1.Checked == true)
             {
-                var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
-                chain.Add(new Block(data.ToArray()));
-                //Console.Write(chain.LastOrDefault()?.ToString());
-                textBox1.AppendText(chain.LastOrDefault()?.ToString());
-                //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
+                
+                for (int i = 0; i < 10; i++)
+                {
+                    var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
+                    chain.Add(new Block(data.ToArray()));
+                    //Console.Write(chain.LastOrDefault()?.ToString());
+                    textBox1.AppendText(chain.LastOrDefault()?.ToString());
+                    //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
+                    textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
+                }
+            }
+            else if (radioButton2.Checked == true)
+            {
+
                 textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
             }
+            else
+            {
+                textBox1.AppendText("Must check radio button");
+            }
+
+            
 
         }
+
     }
 
     public interface IBlock
@@ -62,24 +78,24 @@ namespace WindowsFormsApp2
             using (BinaryWriter bw = new BinaryWriter(st))
             {
                 bw.Write(block.Data);
-                bw.Write(block.Nonce);
+                //bw.Write(block.Nonce);
                 bw.Write(block.TimeStamp.ToBinary());
                 bw.Write(block.PrevHash);
                 var starr = st.ToArray();
                 return sha.ComputeHash(starr);
             }
         }
-        public static byte[] MineHash(this IBlock block, byte[] difficulty)
+        public static byte[] MineHash(this IBlock block)
         {
-            if (difficulty == null) throw new ArgumentNullException(nameof(difficulty));
+            //if (difficulty == null) throw new ArgumentNullException(nameof(difficulty));
 
             byte[] hash = new byte[0];
-            int d = difficulty.Length;
-            while(!hash.Take(2).SequenceEqual(difficulty))
-            {
-                block.Nonce++;
+            //int d = difficulty.Length;
+            //while(!hash.Take(2).SequenceEqual(difficulty))
+           //{
+                //block.Nonce++;
                 hash = block.GenerateHash();
-            }
+            //}
             return hash;
         }
         public static bool IsValid(this IBlock block)
@@ -128,10 +144,10 @@ namespace WindowsFormsApp2
     {
         private List<IBlock> _items = new List<IBlock>();
 
-        public BlockChain(byte[] difficulty, IBlock genesis)
+        public BlockChain(IBlock genesis)
         {
-            Difficulty = difficulty;
-            genesis.Hash = genesis.MineHash(difficulty);
+            //Difficulty = difficulty;
+            genesis.Hash = genesis.MineHash();
             Items.Add(genesis);
         }
 
@@ -141,11 +157,12 @@ namespace WindowsFormsApp2
             {
                 item.PrevHash = Items.LastOrDefault()?.Hash;
             }
-            item.Hash = item.MineHash(Difficulty);
+            item.Hash = item.MineHash();
             Items.Add(item);
         }
 
         public int Count => Items.Count;
+
         public IBlock this[int index]
         {
             get => Items[index];
