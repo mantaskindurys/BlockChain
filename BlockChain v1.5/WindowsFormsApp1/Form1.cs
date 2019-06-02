@@ -10,56 +10,82 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO;
-using System.Security.Cryptography;
 
 namespace WindowsFormsApp1
 {
-
+ 
     public partial class Form1 : Form
     {
+        public node2 class2 { get; set; }
+        public node1 class1 { get; set; }
+
+
 
         public Form1()
         {
             InitializeComponent();
         }
 
-
-
         private void button1_Click(object sender, EventArgs e)
         {
-            //Random rnd = new Random(DateTime.UtcNow.Millisecond);
-            //IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
-            //byte[] difficulty = new byte[] { 0x00, 0x00 };
+            IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
+            BlockChain newChain = new BlockChain(genesis);
 
-            //BlockChain chain = new BlockChain(genesis);
-            //for (int i = 0; i < 1; i++)
+            if (radioButton1.Checked == true)
             {
-                //    string input = "21354";
-                //    byte[] data = System.Text.Encoding.UTF8.GetBytes(input);
-                //    //var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
-                //    chain.Add(new Block(data.ToArray()));
-                //    using (StreamWriter stream = File.AppendText("BlockChain.txt"))
-                //    {
-                //        stream.WriteLine(chain.LastOrDefault()?.ToString());
-                //    }
-
-                var fileStream = new FileStream("BlockChain.txt", FileMode.Open, FileAccess.Read);
-                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+                if(radioButton3.Checked==true)
                 {
-                    string line;
-                    while ((line = streamReader.ReadLine()) != null)
-                    {
-                        string[] words = line.Split();
-                    }
+                    int choice = 1;
+                    newChain = class1.AddBlock(choice);
                 }
+                else if(radioButton4.Checked==true)
+                {
+                    newChain = class1.AddBlock(2);
+                }
+                else { }
+                
+            }
+            else if (radioButton2.Checked == true)
+            {
+                if (radioButton3.Checked == true)
+                {
+                    newChain = class1.AddBlock(1);
+                }
+                else if (radioButton4.Checked == true)
+                {
+                    newChain = class1.AddBlock(2);
+                }
+                else { }
+            }
+            else
+            {
 
-            //    //Console.Write(chain.LastOrDefault()?.ToString());
-            //    textBox1.AppendText(chain.LastOrDefault()?.ToString());
-            //    //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
-            //    textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
+            }
+
         }
 
-    }
+
+        //reading from file
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
+        //    BlockChain chain = new BlockChain(genesis);
+        //    var fileStream = new FileStream("BlockChain.txt", FileMode.Open, FileAccess.Read);
+        //    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+        //    {
+        //        string line;
+        //        while ((line = streamReader.ReadLine()) != null)
+        //        {
+        //            string[] words = line.Split();
+        //            IBlock newBlock = new Block();
+        //            chain.Add();
+
+        //        }
+        //    }
+
+        //}
+
+        
     }
 
     public interface IBlock
@@ -87,8 +113,10 @@ namespace WindowsFormsApp1
         }
         public static byte[] MineHash(this IBlock block/*, byte[] difficulty*/)
         {
-            byte[] hash = new byte[0];           {
-            hash = block.GenerateHash();            }
+            byte[] hash = new byte[0];
+            {
+                hash = block.GenerateHash();
+            }
             return hash;
         }
         public static bool IsValid(this IBlock block)
@@ -131,7 +159,7 @@ namespace WindowsFormsApp1
             return $"{BitConverter.ToString(Hash).Replace("-", "")}\n{BitConverter.ToString(PrevHash).Replace("-", "")}\n {BitConverter.ToString(Data)}\n {TimeStamp}";
         }
 
-        
+
     }
 
     public class BlockChain : IEnumerable<IBlock>
@@ -182,4 +210,50 @@ namespace WindowsFormsApp1
     }
 
 
+    public class node1
+    {
+        public BlockChain AddBlock(int input)
+        {
+            IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
+            BlockChain chain = new BlockChain(genesis);
+            for (int i = 0; i < 1; i++)
+            {
+                string choice = input.ToString();
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
+                //var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
+                chain.Add(new Block(data.ToArray()));
+
+                //Console.Write(chain.LastOrDefault()?.ToString());
+                //textBox1.AppendText(chain.LastOrDefault()?.ToString());
+                //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
+                //textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
+            }
+            return chain;
+        }
+    }
+
+    public class node2
+    {
+        public void AddBlock(int input)
+        {
+            IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
+            byte[] difficulty = new byte[] { 0x00, 0x00 };
+
+            BlockChain chain = new BlockChain(genesis);
+            for (int i = 0; i < 1; i++)
+            {
+                string choice = input.ToString();
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
+                //var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
+                chain.Add(new Block(data.ToArray()));
+
+                //Console.Write(chain.LastOrDefault()?.ToString());
+                //textBox1.AppendText(chain.LastOrDefault()?.ToString());
+                //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
+                //textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
+            }
+
+        }
+
+    }
 }

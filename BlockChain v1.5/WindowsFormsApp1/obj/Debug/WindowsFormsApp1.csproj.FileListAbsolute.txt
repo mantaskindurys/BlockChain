@@ -18,3 +18,13 @@ C:\Users\Lukas\source\repos\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFo
 C:\Users\Lukas\source\repos\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\Users\Lukas\source\repos\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\Lukas\source\repos\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\Mantas\Documents\GitHub\BlockChain\BlockChain v1.5\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
