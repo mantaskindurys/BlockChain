@@ -16,31 +16,32 @@ namespace WindowsFormsApp1
  
     public partial class Form1 : Form
     {
-        public node2 class2 { get; set; }
-        public node1 class1 { get; set; }
-
-
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        node1 n1 = new node1();//initializing class we're gonna use (yes that was the problem previously) #Dumb
+        node2 n2 = new node2();
+
         private void button1_Click(object sender, EventArgs e)
         {
             IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
-            BlockChain newChain = new BlockChain(genesis);
+            BlockChain newChain = new BlockChain(genesis); //keeps creating new chain so data is lost after new vote need fixing
 
             if (radioButton1.Checked == true)
             {
                 if(radioButton3.Checked==true)
                 {
                     int choice = 1;
-                    newChain = class1.AddBlock(choice);
+                    newChain = n1.AddBlock(choice);
+                    textBox1.AppendText(newChain.LastOrDefault()?.ToString());
                 }
                 else if(radioButton4.Checked==true)
                 {
-                    newChain = class1.AddBlock(2);
+                    newChain = n1.AddBlock(2);
+                    textBox1.AppendText(newChain.LastOrDefault()?.ToString());
                 }
                 else { }
                 
@@ -49,11 +50,11 @@ namespace WindowsFormsApp1
             {
                 if (radioButton3.Checked == true)
                 {
-                    newChain = class1.AddBlock(1);
+                    n2.AddBlock(1);
                 }
                 else if (radioButton4.Checked == true)
                 {
-                    newChain = class1.AddBlock(2);
+                    n2.AddBlock(2);
                 }
                 else { }
             }
@@ -212,22 +213,24 @@ namespace WindowsFormsApp1
 
     public class node1
     {
+        
+            public IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
+
+            public BlockChain chain = new BlockChain(genesis);//how to get this to see genesis :( ?
+        //need to have chain created outside the method so we dont create new chain every time we vote. Huge pain in the ass !
+
         public BlockChain AddBlock(int input)
         {
-            IBlock genesis = new Block(new byte[] { 0x00, 0x00, 0x00 });
-            BlockChain chain = new BlockChain(genesis);
-            for (int i = 0; i < 1; i++)
-            {
-                string choice = input.ToString();
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
-                //var data = Enumerable.Range(0, 2256).Select(p => (byte)rnd.Next());
-                chain.Add(new Block(data.ToArray()));
 
-                //Console.Write(chain.LastOrDefault()?.ToString());
-                //textBox1.AppendText(chain.LastOrDefault()?.ToString());
-                //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
-                //textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
-            }
+            string choice = input.ToString();
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
+            chain.Add(new Block(data.ToArray()));
+
+            //Console.Write(chain.LastOrDefault()?.ToString());
+            //textBox1.AppendText(chain.LastOrDefault()?.ToString());
+            //Console.WriteLine($"Chain is valid: {chain.IsValid()}");
+            //textBox1.AppendText($"Chain is valid: {chain.IsValid()}");
+  
             return chain;
         }
     }
