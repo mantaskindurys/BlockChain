@@ -66,7 +66,15 @@ namespace WindowsFormsApp1
         {
             int count = Convert.ToInt32(numericUpDown1.Value);
             byte[] hashchange = new byte[] { 0x3 };
-            s.insert(count, hashchange);
+            bool res = s.insert(count, hashchange);
+            if (res)
+            {
+                textBox1.AppendText("verified\n");
+            }
+            else
+            {
+                textBox1.AppendText("not verified\n");
+            }
         }
     }
 
@@ -285,10 +293,14 @@ namespace WindowsFormsApp1
             }
         }
 
-        public void insert(int count,byte[] BadHash)
+        public bool insert(int count,byte[] BadHash)
         {
+            byte[] temp;
+            temp = newChain.ElementAt(count).Data;
             newChain.ElementAt(count).Data=BadHash;
-            syncronize(1);
+            bool res = syncronize(1);
+            newChain.ElementAt(count).Data = temp;
+            return res;
         }
     }
 
@@ -332,7 +344,7 @@ namespace WindowsFormsApp1
 
             foreach (Block item in chain)
             {
-                if (item.Hash.SequenceEqual(ChainCompare.ElementAt(i).Hash))
+                if (item.Hash.SequenceEqual(ChainCompare.ElementAt(i).Hash) && item.Data.SequenceEqual(ChainCompare.ElementAt(i).Data))
                 {
 
                 }
@@ -342,6 +354,7 @@ namespace WindowsFormsApp1
                     break;
                 }
                 i++;
+     
             }
             
             if(verified)
@@ -399,7 +412,8 @@ public class node2
 
             foreach (Block item in chain)
             {
-                if (item.Hash.SequenceEqual(ChainCompare.ElementAt(i).Hash))
+
+                if (item.Hash.SequenceEqual(ChainCompare.ElementAt(i).Hash) && item.Data.SequenceEqual(ChainCompare.ElementAt(i).Data))
                 {
                     verified = true;
                 }
@@ -409,6 +423,7 @@ public class node2
                     break;
                 }
                 i++;
+                
             }
 
             if (verified)
