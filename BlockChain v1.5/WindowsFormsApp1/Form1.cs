@@ -32,11 +32,12 @@ namespace WindowsFormsApp1
             {
                 if (radioButton3.Checked == true)
                 {
+                    textBox1.Clear();
                     textBox1.AppendText(s.Add(1,1));
                 }
                 else if (radioButton4.Checked == true)
                 {
-
+                    textBox1.Clear();
                     textBox1.AppendText(s.Add(1,2));
                 }
                 else { }
@@ -47,10 +48,12 @@ namespace WindowsFormsApp1
             {
                 if (radioButton3.Checked == true)
                 {
+                    textBox1.Clear();
                     textBox1.AppendText(s.Add(2,1));
                 }
                 else if (radioButton4.Checked == true)
                 {
+                    textBox1.Clear();
                     textBox1.AppendText(s.Add(2,2));
                 }
                 else { }
@@ -69,10 +72,12 @@ namespace WindowsFormsApp1
             bool res = s.insert(count, hashchange);
             if (res)
             {
+                textBox1.Clear();
                 textBox1.AppendText("verified\n");
             }
             else
             {
+                textBox1.Clear();
                 textBox1.AppendText("not verified\n");
             }
         }
@@ -210,6 +215,12 @@ namespace WindowsFormsApp1
 
         public string Add(int choice1,int choice2)
         {
+            string Number0 = "1";
+            string Number1 = "2";
+            byte[] num1 = System.Text.Encoding.UTF8.GetBytes(Number0);
+            byte[] num2 = System.Text.Encoding.UTF8.GetBytes(Number1);
+            int count1=0;
+            int count2=0;
             bool ver;
             string output;
             if(choice1==1)
@@ -219,11 +230,22 @@ namespace WindowsFormsApp1
                 ver = syncronize(1);
                 if (ver)
                 {
-                    output = "verified";
+                    foreach(IBlock item in newChain)
+                    {
+                        if(item.Data.SequenceEqual(num1))
+                        {
+                            count1++;
+                        }
+                        else if(item.Data.SequenceEqual(num2))
+                        {
+                            count2++;
+                        }
+                    }
+                    output = "Candidate 1 Votes:"+count1+ Environment.NewLine +"Candidate 2 Votes:" +count2;
                 }
                 else
                 {
-                    output = "not verified";
+                    output = "not verified, vote not added";
                 }
                 return output;
             }
@@ -234,11 +256,22 @@ namespace WindowsFormsApp1
                 ver = syncronize(2);
                 if (ver)
                 {
-                    output = "verified";
+                    foreach (IBlock item in newChain)
+                    {
+                        if (item.Data.SequenceEqual(num1))
+                        {
+                            count1++;
+                        }
+                        else if (item.Data.SequenceEqual(num2))
+                        {
+                            count2++;
+                        }
+                    }
+                    output = "Candidate 1 Votes:" + count1 + Environment.NewLine +"Candidate 2 Votes:" + count2;
                 }
                 else
                 {
-                    output = "not verified";
+                    output = "not verified, vote not added";
                 }
                 return output;
             }
@@ -384,17 +417,16 @@ public class node2
                 DateTime myDate = DateTime.ParseExact("2009-05-08 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture);
                 genesis.TimeStamp = myDate;
                 chain = new BlockChain(genesis);
-
                 string choice = input.ToString();
                 byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
                 chain.Add(new Block(data.ToArray()));
-
                 return chain;
             }
             else
             {
                 string choice = input.ToString();
                 byte[] data = System.Text.Encoding.UTF8.GetBytes(choice);
+                chain.Add(new Block(data.ToArray()));
                 return chain;
             }
         }
